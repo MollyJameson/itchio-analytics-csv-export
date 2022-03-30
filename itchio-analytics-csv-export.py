@@ -29,15 +29,18 @@ with open(filename, "r") as f:
     for tag in game_bar_classes:
         # the contents of this is something like:
         # data-popup="{"date":"2022-03-12","label":"Downloads: 94","group":"Sudd City Adventures"}"
-        str_data = tag.attrs["data-popup"]
-        hover_data = json.loads(str_data)
-        key = str(hover_data["date"]) + str(hover_data["group"])
+        hover_data = json.loads(tag.attrs["data-popup"])
+        str_date = str(hover_data["date"])
+        str_name = "-"
+        if "group" in hover_data:
+            str_name = str(hover_data["group"])
+        key = str_date + str_name
         curr_row = {}
         if key in row_info:
             curr_row = row_info[key]
         else:
-            curr_row["Name"] = str(hover_data["group"])
-            curr_row["Date"] = str(hover_data["date"])
+            curr_row["Name"] = str_name
+            curr_row["Date"] = str_date
             curr_row["Views"] = "0"
             curr_row["Downloads"] = "0"
             curr_row["Browser Plays"] = "0"
